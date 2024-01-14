@@ -1,0 +1,35 @@
+﻿@model Towergate.Models.Customer
+
+<h2>Edit Customer</h2>
+<hr />
+<div class="row">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Age" class="control-label"></label>
+            <input asp-for="Age" class="form-control" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PostCode" class="control-label">Post code</label>
+            <input asp-for="PostCode" class="form-control" />
+            <span asp-validation-for="PostCode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Height" class="control-label"></label>
+            <input asp-for="Height" class="form-control" />
+            <span asp-validation-for="Height" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+<div>
+    <a asp-action="Index">Cancel</a>
+</div>

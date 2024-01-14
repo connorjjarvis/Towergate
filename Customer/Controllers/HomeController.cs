@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebApplication1.Models;
+using Towergate.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -14,11 +14,6 @@ namespace WebApplication1.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }
