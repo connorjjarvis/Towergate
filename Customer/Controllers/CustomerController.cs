@@ -1,28 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Towergate.Models;
+using Towergate.Database;
 
 namespace Towergate.Controllers
 {
     public class CustomerController : Controller
     {
-        private List<Customer> customers;
+        private ICustomerOp customerDb;
 
-        public CustomerController()
+        public CustomerController(ICustomerOp _db)
         {
-            customers = new List<Customer>()
-            {
-                new Customer()
-                { Id = 0, Name = "Connor Jarvis", Age = 29, PostCode = "TA116EG", Height=1.8 },
-            };
+            customerDb = _db;
         }
         public IActionResult Index()
         {
-            return View(customers);
+            return View(customerDb.GetCustomers());
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                var customer = new Customer();
+                customer.Name = collection["Name"].ToString();
+                customer.PostCode = collection["PostCode"].ToString();
+                customer.Age = int.Parse(collection["Age"]);
+                customer.Height = double.Parse(collection["Height"]);
+
+                customerDb.AddCustomer(customer);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult Edit(int id)
         {
-            var customer = customers.FirstOrDefault(x => x.Id == id);
+            var customer = customerDb.GetCustomer(id);
             return View(customer);
         }
 
@@ -40,8 +64,9 @@ namespace Towergate.Controllers
                 customer.Age = int.Parse(collection["Age"]);
                 customer.Height = double.Parse(collection["Height"]);
 
-                var originalCustomer = customers.FirstOrDefault(x => x.Id == id);
-                originalCustomer = customer;
+
+                //var customer = customerDb.GetCustomer(id);
+                //
 
                 return RedirectToAction(nameof(Index));
             }
