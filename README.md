@@ -1,8 +1,8 @@
 # Towergate
 
 ## Time spent
-2 Hours for the master commit
-In-progress modal branch
+* 2 Hours for the master commit
+* In-progress modal branch
 
 ## Choice of Frontend Technology
 I've used ASP.NET MVC Razer, this allows me to create a dyanmic web page using C# alongside HTML. 
