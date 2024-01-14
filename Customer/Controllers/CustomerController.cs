@@ -24,23 +24,24 @@ namespace Towergate.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Customer customer)
         {
             try
             {
-                var customer = new Customer();
-                customer.Name = collection["Name"].ToString();
-                customer.PostCode = collection["PostCode"].ToString();
-                customer.Age = int.Parse(collection["Age"]);
-                customer.Height = double.Parse(collection["Height"]);
+                if (ModelState.IsValid)
+                {
+                    customerDb.AddCustomer(customer);
 
-                customerDb.AddCustomer(customer);
-
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                 else
+                {
+                    return View(customer);
+                }
             }
             catch
             {
-                return View();
+                return View(customer);
             }
         }
 
@@ -52,21 +53,31 @@ namespace Towergate.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Customer customer)
         {
 
             try
             {
-                var customer = new Customer();
-                customer.Id = id;
-                customer.Name = collection["Name"].ToString();
-                customer.PostCode = collection["PostCode"].ToString();
-                customer.Age = int.Parse(collection["Age"]);
-                customer.Height = double.Parse(collection["Height"]);
-                
-                customerDb.UpdateCustomer(customer);
+                if (ModelState.IsValid)
+                {
+                    var existingCustomer = customerDb.GetCustomer(id);
+                    if (existingCustomer != null)
+                    {
+                        existingCustomer.Name = customer.Name;
+                        existingCustomer.PostCode = customer.PostCode;
+                        existingCustomer.Age = customer.Age;
+                        existingCustomer.Height = customer.Height;
 
-                return RedirectToAction("Index");
+                        customerDb.UpdateCustomer(existingCustomer);
+
+                        return RedirectToAction("Index");
+                    }
+
+                    return RedirectToAction("Index");
+                } else
+                {
+                    return View();
+                }
             }
             catch
             {
