@@ -5,13 +5,13 @@
 * In-progress modal branch
 
 ## Choice of Frontend Technology
-I've used ASP.NET MVC Razer, this allows me to create a dyanmic web page using C# alongside HTML. 
+I've used ASP.NET MVC Razor, this allows me to create a dynamic web page using C# alongside HTML. 
 
 ## Design Decisions Taken
 * Model-view-controller (MVC): This project follows the MVC pattern, which is a standard way for structuring ASP.net applications.
 * Data Validation: Data annotations were used for validating the 'Customer' Model.
 * Data storage: A static list was chosen to temporarily store customer data in memory.
-* Modal Dialogs: Bootstrap modals are being used to add/edit customer details, provides a user-friendly experience without having to do page reloads. (still in progress)
+* Modal Dialogs: Bootstrap modals are being used to add/edit customer details, providing a user-friendly experience without having to do page reloads. (still in progress)
 
 ## Any issues found
 A few problems:
