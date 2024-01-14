@@ -63,12 +63,10 @@ namespace Towergate.Controllers
                 customer.PostCode = collection["PostCode"].ToString();
                 customer.Age = int.Parse(collection["Age"]);
                 customer.Height = double.Parse(collection["Height"]);
+                
+                customerDb.UpdateCustomer(customer);
 
-
-                //var customer = customerDb.GetCustomer(id);
-                //
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             catch
             {

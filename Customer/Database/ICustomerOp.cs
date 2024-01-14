@@ -7,5 +7,7 @@ namespace Towergate.Database
         IList<Customer> GetCustomers();
         void AddCustomer(Customer customer);
         Customer GetCustomer(int id);
+
+        bool UpdateCustomer(Customer customer);
     }
 }
