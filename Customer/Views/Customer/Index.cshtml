@@ -49,24 +49,6 @@
     <partial name="_EditModal" model="Model.Customer" />
 </div>
 
-<script>
-    $(document).ready(function () {
-        $(document).on('submit', '#createCustomerForm', function (event) {
-            event.preventDefault();
-
-            var form = $(this);
-            $.ajax({
-                type: 'POST',
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    $('#createCustomerModal').html(response);
-                }
-            });
-        });
-    });
-</script>
-
 <script type="text/javascript">
     function AddCustomer() {
         $.ajax({

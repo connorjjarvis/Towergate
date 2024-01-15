@@ -77,16 +77,15 @@ namespace Towergate.Controllers
 
                         return RedirectToAction("Index");
                     }
-
-                    return PartialView("_EditModal", customer);
+                    return RedirectToAction("Index");
                 } else
                 {
-                    return View();
+                    return PartialView("_EditModal", customer);
                 }
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }
