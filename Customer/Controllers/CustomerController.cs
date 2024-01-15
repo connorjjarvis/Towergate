@@ -12,14 +12,19 @@ namespace Towergate.Controllers
         {
             customerDb = _db;
         }
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            return View(customerDb.GetCustomers());
+            var viewModel = new CustomerViewModel
+            {
+                Customers = customerDb.GetCustomers(),
+                Customer = new Customer()
+            };
+            return View(viewModel);
         }
 
         public ActionResult Create()
         {
-            return View();
+            return PartialView("_CreateModal");
         }
 
         [HttpPost]
@@ -36,19 +41,19 @@ namespace Towergate.Controllers
                 }
                  else
                 {
-                    return View(customer);
+                    return PartialView("_CreateModal", customer);
                 }
             }
             catch
             {
-                return View(customer);
+                return PartialView("_CreateModal",customer);
             }
         }
 
         public ActionResult Edit(int id)
         {
             var customer = customerDb.GetCustomer(id);
-            return View(customer);
+            return PartialView("_EditModal", customer);
         }
 
         [HttpPost]
@@ -73,7 +78,7 @@ namespace Towergate.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    return RedirectToAction("Index");
+                    return PartialView("_EditModal", customer);
                 } else
                 {
                     return View();

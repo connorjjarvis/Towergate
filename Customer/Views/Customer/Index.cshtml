@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Towergate Customers";
 }
-@model IEnumerable<Customer>
+@model CustomerViewModel
 
 <div class="text-center">
     <h1>Customers</h1>
@@ -9,7 +9,7 @@
     <br />
 
     <div>
-        @Html.ActionLink("Add", "Create")
+        <button class="btn edit-customer btn-success" onclick="AddCustomer()">Add</button>
     </div>
 
     <br />
@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-`       @foreach (var customer in Model)
+`       @foreach (var customer in Model.Customers)
         {
             <tr>
                 <td scope="row">@customer.Name</td>
@@ -33,11 +33,67 @@
                 <td>@customer.PostCode</td>
                 <td>@customer.Height</td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = customer.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = customer.Id })
+                        <button class="btn edit-customer btn-warning" onclick="EditCustomer(@customer.Id)">Edit</button>
                 </td>
             </tr>
             }
         </tbody>
     </table>
 </div>
+
+<div class="modal fade createCustomerModal" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
+    <partial name="_CreateModal" model="Model.Customer" />
+</div>
+
+<div class="modal fade editCustomerModal" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+    <partial name="_EditModal" model="Model.Customer" />
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('submit', '#createCustomerForm', function (event) {
+            event.preventDefault();
+
+            var form = $(this);
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    $('#createCustomerModal').html(response);
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function AddCustomer() {
+        $.ajax({
+            type: "GET",
+            url: "/Customer/Create",
+            success: function (data) {
+                $('#createCustomerModal').modal('show');
+                $('#createCustomerModal').html(data);
+            },
+            error: function (data) {
+                alert("Error");
+            }
+        });
+    }
+
+    function EditCustomer(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Customer/Edit",
+            data: { id: id },
+            success: function (data) {
+                $('#editCustomerModal').modal('show');
+                $('#editCustomerModal').html(data);
+            },
+            error: function (data) {
+                alert("Error");
+            }
+        });
+    }
+</script>
